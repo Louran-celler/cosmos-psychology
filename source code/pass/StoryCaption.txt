@@ -1,0 +1,17 @@
+:: StoryCaption
+<div class="sidebar-telemetry">
+	<h4>SYSTEM ALERTS</h4>
+	<div class="sidebar-log-output">
+		<<if $achievementText.length == 0>>
+			<div class="quiet-log">Awaiting data input...</div>
+		<<else>>
+			<<for _j = 0; _j < Math.min($achievementText.length, 6); _j++>>
+				<div class="sidebar-log-line">> <<print $achievementText[_j]>></div>
+			<</for>>
+		<</if>>
+	</div>
+	<hr style="border-color: #27272a;">
+	<div class="sidebar-counter">
+		<strong>Dynamic Vector Nodes:</strong> <span style="color: #06b6d4;"><<= $known.length>></span>
+	</div>
+</div>

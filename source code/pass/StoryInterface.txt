@@ -1,0 +1,10 @@
+<div id="title" data-passage="StoryDisplayTitle"></div>
+<div id="middle">
+	<div id="left-menu" data-passage="LeftMenu"></div>
+	<div id="cover">
+		<div id="passages"><!--DO NOT REMOVE--></div>
+	</div>
+	<div id="right-menu" data-passage="RightMenu"></div>
+</div>
+<div id="navig" data-passage="Navigation"></div>
+<!-- The container for everything is #story -->

@@ -1,0 +1,502 @@
+:: StoryInterface
+
+<div id="title" data-passage="StoryDisplayTitle"></div>
+<div id="middle">
+	<div id="left-menu" data-passage="LeftMenu"></div>
+	<div id="cover">
+		<div id="passages"><!--DO NOT REMOVE--></div>
+	</div>
+	<div id="right-menu" data-passage="RightMenu"></div>
+</div>
+<div id="navig" data-passage="Navigation"></div>
+<!-- The container for everything is #story -->
+
+:: LeftMenu
+
+/*
+	The menu is toggled off by default. Clicking on the Arrow (first icon/p) will trigger <<toggleclass>>, and display the menu. Click again or reload the page and it will disappear.
+
+	[title] for each <p> will display a hovertip to tell players what the icon/link represents. 
+*/
+
+<p id="left-toggle" title="Toggle Menu"><<link '<i class="fa-solid fa-caret-up"></i>'>><<toggleclass "#left-menu" "show">><</link>></p>
+<p title="Codex"><<link '<i class="fa-solid fa-book"></i>' "codex">><</link>></p>
+<p title="Credits"><<link '<i class="fa-solid fa-share-nodes"></i>'>>
+	<<popup "credits" "Credits">>
+<</link>></p>
+<p title="Saves"><<link '<i class="fa-solid fa-floppy-disk"></i>'>><<run UI.saves();>><</link>></p>
+<p title="Settings"><<link '<i class="fa-solid fa-gears"></i>'>><<run UI.settings();>><</link>></p>
+<p title="Restart"><<link '<i class="fa-solid fa-rotate-left"></i>'>><<run UI.restart();>><</link>></p>
+/*
+	This first section only has utilities icons (Settings/Saves/Restarts and Credits), with the more Story focused one coded in the RightMenu instead.
+
+	You can add more links if you want, though I do not recommend too many, because it can become a pain with small screens (>300px).
+*/
+
+:: credits
+
+The ''Simple Book Template'' was created by manonamora on Twine 2/Tweego with SugarCube 2.37.3.
+\
+<h3>The Simple Book Template</h3>\
+This template was made possible thanks to the assets and resources below:
+> //Macro://
+* [[Chapel|https://github.com/ChapelR/custom-macros-for-sugarcube-2/]]: Dialog API Macro Set (modified) + Notify Macro
+> //Assets://
+* [[FontAwesome|https://fontawesome.com/]]
+* [[GoogleFonts|https://fonts.google.com]]
+\
+<h3>manonamora</h3>\
+You can find:
+* my other templates on [[Itch|https://manonamora.itch.io/]], as well as my guides:
+** [[SugarCube Guide|https://manonamora.itch.io/twine-sugarcube-guide]]
+** [[Ready-to-Use Tweego and Guide |https://manonamora.itch.io/ready-to-use-tweego-folder]] 
+** [[ChoiceScript to SugarCube Guide |https://manonamora.itch.io/choicescript-sugarcube-guide]] 
+* my games and IF experiments on [[Itch|https://manonamora.itch.io/]]
+* me, and ask me questions, over on [[Tumblr|https://manonamora-if.tumblr.com]] or [[my website|https://manonamora.neocities.org/]]
+* my Twine Resource Masterlist on the [[IntFiction Forum|https://intfiction.org/t/twine-resource-masterlist-wiki/65903]] (an out-of-date version is rebloggable on [[Tumbr|https://manonamora-if.tumblr.com/post/700577877042888704/]]).
+\
+<h3>Twine and SugarCube</h3>\
+You can download Twine over on the [[Twinery.org|https://twinery.org/]] website, which includes the SugarCube format.
+Thomas M. Edwards hosts the Documentation for the SugarCube format over on [[his website|https://www.motoslave.net/sugarcube/2/docs/]].
+
+There are resources and help available with Twine and SugarCube:
+* on the [[IntFiction Forum|https://intfiction.org/c/authoring/twine/46]]
+* on the [[Twine Subreddit|https://www.reddit.com/r/twinegames/]]
+* in the [[Twine Discord|https://discord.gg/n5dJvPp]]
+* and more listed in this [[Masterlist|https://intfiction.org/t/twine-resource-masterlist-wiki/65903]]
+<hr>\
+<h5>You can find my other SugarCube templates [[here|https://manonamora.itch.io/twine-sugarcube-templates]].</h5>
+
+:: StoryInit
+
+<<set $hand1 to "Nothing">>
+<<set $hand2 to "Nothing">>
+<<set $achievementText to []>>
+
+/* Starting Inventory: 6 Base Moons + 4 Cosmic Accelerators */
+<<set $known to [
+	"Fear", "Joy", "Anger", "Sadness", "Disgust", "Energy",
+	"Duration", "Intensity", "Deficit", "Fixation"
+]>>
+
+/* Suns and Galaxy Tracking Arrays */
+<<set $ignitedSuns to []>>
+<<set $activeGalaxies to []>>
+
+/* Initialize the Master Combination Matrix */
+<<set $combinations to {}>>
+
+/* --- TIER 2 RECIPES: MOON + MOON / MOON + ACCELERATOR (PLANETS) --- */
+/* Affective & Mood Traits */
+<<set $combinations["Duration|Sadness"] to "Chronic Low Mood">>
+<<set $combinations["Deficit|Joy"] to "Anhedonia">>
+<<set $combinations["Energy|Intensity"] to "Hyper-Arousal">>
+<<set $combinations["Duration|Fear"] to "Generalized Anxiety">>
+
+/* Behavioral & Personality Traits */
+<<set $combinations["Anger|Disgust"] to "Callousness">>
+<<set $combinations["Deficit|Energy"] to "Impulsivity">>
+<<set $combinations["Fear|Fixation"] to "Hypervigilance">>
+<<set $combinations["Disgust|Fixation"] to "Aversion">>
+<<set $combinations["Anger|Intensity"] to "Aggression">>
+
+/* Cognitive & Self Traits */
+<<set $combinations["Intensity|Joy"] to "Grandiosity">>
+<<set $combinations["Deficit|Fear"] to "Insecurity">>
+<<set $combinations["Anger|Fixation"] to "Resentment">>
+<<set $combinations["Deficit|Disgust"] to "Deceitfulness">>
+<<set $combinations["Fear|Intensity"] to "Paranoia">>
+
+::Navigation
+
+<<link '<i class="fa-solid fa-backward"></i>'>><<run Engine.backward();>><</link>> | <<if State.length === State.size>><i class="fa-solid fa-forward"></i><<else>><<link '<i class="fa-solid fa-forward"></i>'>><<run Engine.forward();>><</link>><</if>>
+/*
+	While this only has navigation buttons here, you could honestly have the whole menu (Settings/Saves/etc...) included in this passage and not have sidebars. If you do that, please remember to remove the [left-menu] and [right-menu] from StoryInterface and the StyleSheet.
+
+	You can also choose to disable Navigation by removing this passage, the [navigation] element in the StoryInterface, and increase the height of [#cover] in the StyleSheet.
+*/
+
+::codex
+<<nobr>>
+<strong>Joy:</strong> A feeling of extreme gladness, delight, or exultation of the spirit arising from a sense of well-being or satisfaction. The feeling of joy may take two forms: passive and active. Passive joy involves tranquility and a feeling of contentment with things as they are. Active joy involves a desire to share one’s feelings with others. It is associated with more engagement of the environment than is passive joy. The distinction between passive and active joy may be related to the intensity of the emotion, with active joy representing the more intense form. Both forms of joy are associated with an increase in energy and feelings of confidence and self-esteem.
+<br><em>Source: https://dictionary.apa.org/joy </em><br><br>
+
+<strong>Anger:</strong> An emotion characterized by tension and hostility arising from frustration, real or imagined injury by another, or perceived injustice. It can manifest itself in behaviors designed to remove the object of the anger (e.g., determined action) or behaviors designed merely to express the emotion (e.g., swearing). Anger is distinct from, but a significant activator of, aggression, which is behavior intended to harm someone or something. Despite their mutually influential relationship, anger is neither necessary nor sufficient for aggression to occur.
+<br><em>Source: https://dictionary.apa.org/anger </em><br><br>
+
+<strong>Sadness:</strong> An emotional state of unhappiness, ranging in intensity from mild to extreme and usually aroused by the loss of something that is highly valued (e.g., by the rupture of a relationship). Persistent sadness is one of the two defining symptoms of a major depressive episode, the other being anhedonia.
+<br><em>Source: https://dictionary.apa.org/sadness </em><br><br>
+
+<strong>Disgust:</strong> A strong aversion, for example, to the taste, smell, or touch of something deemed revolting, or toward a person or behavior deemed morally repugnant.
+<br><em>Source: https://dictionary.apa.org/disgust </em><br><br>
+
+<strong>Energy:</strong> A fundamental entity of nature that is transferred between parts of a system in the production of physical change within the system and usually regarded as the capacity for doing work.
+<br><em>Source: https://www.merriam-webster.com/dictionary/energy </em><br><br>
+
+<strong>Duration:</strong> Continuance in time.
+<br><em>Source: https://www.merriam-webster.com/dictionary/duration </em><br><br>
+
+<strong>Intensity:</strong> Existing in an extreme degree.
+<br><em>Source: https://www.merriam-webster.com/dictionary/intense </em><br><br>
+
+<strong>Deficit:</strong> A lack or impairment in an ability or functional capacity.
+<br><em>Source: https://www.merriam-webster.com/dictionary/deficit </em><br><br>
+
+<strong>Fixation:</strong> An obsessive or unhealthy preoccupation or attachment.
+<br><em>Source: https://www.merriam-webster.com/dictionary/fixation </em><br><br>
+
+<<if $known.includes("Chronic Low Mood")>>
+<strong>Chronic Low Mood:</strong> A mild to moderate chronic depression. It involves a sad or dark mood most of the day, on most days, for two years or more. PDD is common and can happen to anyone at any age.
+<br><em>Source: http://my.clevelandclinic.org/health/diseases/9292-persistent-depressive-disorder-pdd </em><br><br>
+<</if>>
+
+<<if $known.includes("Anhedonia")>>
+<strong>Anhedonia:</strong> The inability to enjoy experiences or activities that normally would be pleasurable. It is one of two defining symptoms of a major depressive episode (the other being a persistent depressed mood), but it is also seen in other disorders, including schizophrenia. (First defined in 1897 by Théodule Ribot).
+<br><em>Source: https://dictionary.apa.org/anhedonia </em><br><br>
+<</if>>
+
+<<if $known.includes("Hyper-Arousal")>>
+<strong>Hyper-Arousal:</strong> One of three sets of criteria used to diagnose posttraumatic stress disorder and acute stress disorder. Symptoms of hyperarousal include exaggerated startle response, disturbed sleep, difficulty in concentrating or remembering, and excessive vigilance.
+<br><em>Source: https://dictionary.apa.org/hyperarousal </em><br><br>
+<</if>>
+
+<<if $known.includes("Generalized Anxiety")>>
+<strong>Generalized Anxiety:</strong> GAD usually involves a persistent feeling of anxiety or dread that interferes with how you live your life. It is not the same as occasionally worrying about things or experiencing anxiety due to stressful life events. For people with GAD, these feelings of anxiety can last for months or even years.
+<br><em>Source: https://www.nimh.nih.gov/health/publications/generalized-anxiety-disorder-gad </em><br><br>
+<</if>>
+
+<<if $known.includes("Callousness")>>
+<strong>Callousness:</strong> Behaviour that is unkind, cruel, and without sympathy or feeling for other people.
+<br><em>Source: https://dictionary.cambridge.org/dictionary/english/callousness </em><br><br>
+<</if>>
+
+<<if $known.includes("Impulsivity")>>
+<strong>Impulsivity:</strong> Describing or displaying behavior characterized by little or no forethought, reflection, or consideration of the consequences of an action, particularly one that involves taking risks. Compare reflective.
+<br><em>Source: https://dictionary.apa.org/impulsive </em><br><br>
+<</if>>
+
+<<if $known.includes("Hypervigilance")>>
+<strong>Hypervigilance:</strong> A state of abnormally heightened alertness, particularly to threatening or potentially dangerous stimuli.
+<br><em>Source: https://dictionary.apa.org/hypervigilance </em><br><br>
+<</if>>
+
+<<if $known.includes("Aversion")>>
+<strong>Aversion:</strong> A physiological or emotional response indicating dislike for a stimulus. It is usually accompanied by withdrawal from or avoidance of the objectionable stimulus (an aversion reaction).
+<br><em>Source: https://dictionary.apa.org/aversion </em><br><br>
+<</if>>
+
+<<if $known.includes("Aggression")>>
+<strong>Aggression:</strong> Behavior aimed at harming others physically or psychologically. It can be distinguished from anger in that anger is oriented at overcoming the target but not necessarily through harm or destruction. When such behavior is purposively performed with the primary goal of intentional injury or destruction, it is termed hostile aggression. Other types of aggression are less deliberately damaging and may be instrumentally motivated (proactive) or affectively motivated (reactive). Instrumental aggression involves an action carried out principally to achieve another goal, such as acquiring a desired resource. Affective aggression involves an emotional response that tends to be targeted toward the perceived source of the distress but may be displaced onto other people or objects if the disturbing agent cannot be attacked.
+<br><em>Source: https://dictionary.apa.org/aggression </em><br><br>
+<</if>>
+
+<<if $known.includes("Grandiosity")>>
+<strong>Grandiosity:</strong> An exaggerated sense of one’s greatness, importance, or ability. In extreme form, it may be regarded as a delusion of grandeur.
+<br><em>Source: https://dictionary.apa.org/grandiosity </em><br><br>
+<</if>>
+
+<<if $known.includes("Insecurity")>>
+<strong>Insecurity:</strong> A feeling of inadequacy, lack of self-confidence, and inability to cope, accompanied by general uncertainty and anxiety about one’s goals, abilities, or relationships with others.
+<br><em>Source: https://dictionary.apa.org/insecurity </em><br><br>
+<</if>>
+
+<<if $known.includes("Resentment")>>
+<strong>Resentment:</strong> A feeling of bitterness, animosity, or hostility elicited by something or someone perceived as insulting or injurious.
+<br><em>Source: https://dictionary.apa.org/resentment </em><br><br>
+<</if>>
+
+<<if $known.includes("Deceitfulness")>>
+<strong>Deceitfulness:</strong> The action of keeping the truth hidden, especially to get an advantage.
+<br><em>Source: http://dictionary.cambridge.org/dictionary/english/deceitfulness </em><br><br>
+<</if>>
+
+<<if $known.includes("Paranoia")>>
+<strong>Paranoia:</strong> A diagnosis for a relatively rare disorder, distinct from paranoid schizophrenia, in which the person reasons rightly from a wrong premise and develops a persistent, well-systematized, and logically constructed set of persecutory delusions, such as being conspired against, poisoned, or maligned. It is equivalent to persecutory-type delusional disorder.
+<br><em>Source: https://dictionary.apa.org/paranoia </em><br><br>
+<</if>>
+<</nobr>>
+
+:: StoryDisplayTitle
+
+Cosmo Healthist
+
+:: Attach
+
+/* 1. check combo */
+<<nobr>>
+<<if $hand1 == null or $hand1 == undefined>>
+<<set $hand1 to "Nothing">>
+<</if>>
+<<if $hand2 == null or $hand2 == undefined>>
+<<set $hand2 to "Nothing">>
+<</if>>
+
+<<if $hand1 != "Nothing" and $hand2 != "Nothing">>
+    <<set _words to [$hand1, $hand2]>>
+    <<set _words.sort()>>
+    <<set _key to _words[0] + "|" + _words[1]>>
+    <<set _result to $combinations[_key]>>
+
+    <<if _result !== undefined>>
+        <<if !$known.includes(_result)>>
+            <<set $known.push(_result)>>
+            <<if !settings.nonotif>>
+                <<notify 4s>>New Planet discovered: <<print _result>><</notify>>
+            <</if>>
+        <</if>>
+    <<else>>
+        <<if !settings.nonotif>>
+            <<notify 4s>>The combinations drift away into the vacuum.<</notify>>
+        <</if>>
+    <</if>>
+
+    /* Reset Hands */
+    <<set $hand1 to "Nothing">>
+    <<set $hand2 to "Nothing">>
+<</if>>
+
+/* 2. CLINICAL CHECKLIST ENGINE */
+<<if !$ignitedSuns.includes("Major Depressive Disorder")>>
+    <<if $known.includes("Chronic Low Mood") and $known.includes("Anhedonia")>>
+        <<set $ignitedSuns.push("Major Depressive Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Major Depressive Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Generalized Anxiety Disorder")>>
+    <<if $known.includes("Generalized Anxiety") and $known.includes("Hyper-Arousal")>>
+        <<set $ignitedSuns.push("Generalized Anxiety Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Generalized Anxiety Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Obsessive-Compulsive Disorder")>>
+    <<if $known.includes("Hypervigilance") and $known.includes("Aversion") and $known.includes("Fixation")>>
+        <<set $ignitedSuns.push("Obsessive-Compulsive Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Obsessive-Compulsive Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Antisocial Personality Disorder")>>
+    <<if $known.includes("Callousness") and $known.includes("Impulsivity") and $known.includes("Deceitfulness") and $known.includes("Aggression")>>
+        <<set $ignitedSuns.push("Antisocial Personality Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Antisocial Personality Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Narcissistic Personality Disorder")>>
+    <<if $known.includes("Grandiosity") and $known.includes("Insecurity") and $known.includes("Callousness")>>
+        <<set $ignitedSuns.push("Narcissistic Personality Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Narcissistic Personality Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Borderline Personality Disorder")>>
+    <<if $known.includes("Impulsivity") and $known.includes("Insecurity") and $known.includes("Chronic Low Mood") and $known.includes("Aggression")>>
+        <<set $ignitedSuns.push("Borderline Personality Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Borderline Personality Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Paranoid Personality Disorder")>>
+    <<if $known.includes("Paranoia") and $known.includes("Resentment") and $known.includes("Hypervigilance")>>
+        <<set $ignitedSuns.push("Paranoid Personality Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Paranoid Personality Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+/* 3. GALAXY DRIFT MANAGEMENT */
+<<if !$activeGalaxies.includes("Affective Nebula") and ($ignitedSuns.includes("Major Depressive Disorder") or $ignitedSuns.includes("Generalized Anxiety Disorder") or $ignitedSuns.includes("Obsessive-Compulsive Disorder"))>>
+    <<set $activeGalaxies.push("Affective Nebula")>>
+    <<if !settings.nonotif>><<notify 4s>>Cluster Formed: Affective Nebula<</notify>><</if>>
+<</if>>
+
+<<if !$activeGalaxies.includes("Erratic Cluster") and ($ignitedSuns.includes("Antisocial Personality Disorder") or $ignitedSuns.includes("Narcissistic Personality Disorder") or $ignitedSuns.includes("Borderline Personality Disorder"))>>
+    <<set $activeGalaxies.push("Erratic Cluster")>>
+    <<if !settings.nonotif>><<notify 4s>>Cluster Formed: Erratic Cluster<</notify>><</if>>
+<</if>>
+
+<<if !$activeGalaxies.includes("Eccentric Deep") and $ignitedSuns.includes("Paranoid Personality Disorder")>>
+    <<set $activeGalaxies.push("Eccentric Deep")>>
+    <<if !settings.nonotif>><<notify 4s>>Cluster Formed: Eccentric Deep<</notify>><</if>>
+<</if>>
+
+<<if !$activeGalaxies.includes("Dark Triad System") and ($ignitedSuns.includes("Antisocial Personality Disorder") and $ignitedSuns.includes("Narcissistic Personality Disorder") and $known.includes("Deceitfulness") and $known.includes("Callousness"))>>
+    <<set $activeGalaxies.push("Dark Triad System")>>
+    <<if !settings.nonotif>><<notify 4s>>Cluster Formed: Dark Triad System<</notify>><</if>>
+<</if>>
+
+
+
+<div>
+<center>
+	<<print $hand1>> + <<print $hand2>> </center>
+	<<if $hand1 != "Nothing" or $hand2 != "Nothing">>
+		<center><<button "Clear Orbits">></center>
+			<<set $hand1 to "Nothing">><<set $hand2 to "Nothing">>
+			<<goto "Attach">>
+		<</button>>
+	<</if>>
+</div>
+<div>
+	<<set _atoms to ["Fear", "Joy", "Anger", "Sadness", "Disgust", "Energy", "Duration", "Intensity", "Deficit", "Fixation"]>>
+	<<for _i = 0; _i < _atoms.length; _i++>>
+		<<capture _i>>
+			<<button _atoms[_i]>>
+				<<if $hand1 == "Nothing">>
+					<<set $hand1 to _atoms[_i]>>
+				<<elseif $hand2 == "Nothing">>
+					<<set $hand2 to _atoms[_i]>>
+				<<else>>
+					<<set $hand1 to _atoms[_i]>>
+					<<set $hand2 to "Nothing">>
+				<</if>>
+				<<goto "Attach">>
+			<</button>>
+		<</capture>>
+	<</for>>
+</div>
+<</nobr>><hr>
+<div class="scrollable-area">
+<ul>
+	/* 1. AFFECTIVE NEBULA SECTOR */
+	<li>
+		<strong><<if $activeGalaxies.includes("Affective Nebula")>>Affective Nebula (Internalizing Distress and Dysregulation)<<else>>Unknown Nebula<</if>></strong><ul><li>
+                <strong><<if $ignitedSuns.includes("Major Depressive Disorder")>>Major Depressive Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Chronic Low Mood")>>Chronic Low Mood<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Anhedonia")>>Anhedonia<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+			<li>
+				<strong><<if $ignitedSuns.includes("Generalized Anxiety Disorder")>>Generalized Anxiety Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Generalized Anxiety")>>Generalized Anxiety<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Hyper-Arousal")>>Hyper-Arousal<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+			<li>
+				<strong><<if $ignitedSuns.includes("Obsessive-Compulsive Disorder")>>Obsessive-Compulsive Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Hypervigilance")>>Hypervigilance<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Aversion")>>Unknown Planet<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Fixation")>>Fixation<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+
+	/* 2. ERRATIC CLUSTER SECTOR */
+	<li>
+		<strong><<if $activeGalaxies.includes("Erratic Cluster")>>Erratic Cluster (Cluster B - Volatility and Impulse Control Failures)<<else>>Unknown Cluster<</if>></strong>
+		<ul>
+			<li>
+				<strong><<if $ignitedSuns.includes("Antisocial Personality Disorder")>>Antisocial Personality Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Callousness")>>Callousness<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Impulsivity")>>Impulsivity<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Deceitfulness")>>Deceitfulness<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Aggression")>>Aggression<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+			<li>
+				<strong><<if $ignitedSuns.includes("Narcissistic Personality Disorder")>>Narcissistic Personality Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Grandiosity")>>Grandiosity<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Insecurity")>>Insecurity<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Callousness")>>Callousness (Overlapped)<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+			<li>
+				<strong><<if $ignitedSuns.includes("Borderline Personality Disorder")>>Borderline Personality Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Impulsivity")>>Impulsivity (Overlapped)<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Insecurity")>>Insecurity (Overlapped)<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Chronic Low Mood")>>Chronic Low Mood (Overlapped)<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Aggression")>>Aggression (Overlapped)<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+
+	/* 3. ECCENTRIC DEEP SECTOR */
+	<li>
+		<strong><<if $activeGalaxies.includes("Eccentric Deep")>>Eccentric / Suspicious Deep (Cluster A - Distrust and Cognitive Distortions)<<else>>Unknown Deep<</if>></strong>
+		<ul>
+			<li>
+				<strong><<if $ignitedSuns.includes("Paranoid Personality Disorder")>>Paranoid Personality Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Paranoia")>>Paranoia<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Resentment")>>Resentment<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Hypervigilance")>>Hypervigilance (Overlapped)<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+
+	/* 4. DARK TRIAD OVERLAP SECTOR */
+	<li>
+		<strong><<if $activeGalaxies.includes("Dark Triad System")>>Dark Triad System (Gravitational Hyper-Overlap)<<else>>Unknown System<</if>></strong>
+		<ul>
+			<li><<if $ignitedSuns.includes("Antisocial Personality Disorder")>>Antisocial (Psychopathy Branch)<<else>>Unknown Sub-System<</if>></li>
+			<li><<if $ignitedSuns.includes("Narcissistic Personality Disorder")>>Narcissism (Ego Branch)<<else>>Unknown Sub-System<</if>></li>
+			<li><<if $activeGalaxies.includes("Dark Triad System")>>Machiavellianism Sub-System<<else>>Unknown Sub-System<</if>></li> 
+		</ul>
+	</li>
+</ul>
+
+Discovered: <<print $known.length - 10>> / Total Planets: 15
+Ignited Suns: $ignitedSuns.length / 7
+Active Galaxies: $activeGalaxies.length / 4
+</div>
+
+:: StoryCaption
+
+<div class="sidebar-telemetry">
+	<h4>SYSTEM ALERTS</h4>
+	<div class="sidebar-log-output">
+		<<if $achievementText.length == 0>>
+			<div class="quiet-log">Awaiting data input...</div>
+		<<else>>
+			<<for _j = 0; _j < Math.min($achievementText.length, 6); _j++>>
+				<div class="sidebar-log-line">> <<print $achievementText[_j]>></div>
+			<</for>>
+		<</if>>
+	</div>
+	<hr style="border-color: #27272a;">
+	<div class="sidebar-counter">
+		<strong>Dynamic Vector Nodes:</strong> <span style="color: #06b6d4;"><<= $known.length>></span>
+	</div>
+</div>
+
+:: End
+
+<h1>END</h1>
+
+<center><<button "Restart?">><<run UI.restart();>><</button>> | <<button "Back">><<run Engine.backward()>><</button>></center>
+/*
+	This is a pretty bare option for an end page here. So you may want to add more.
+
+	also the tags [cover-start] and [cover-end] are necessary to make it look like the back cover of a book.
+*/
+
+:: Begin
+
+You stand before the void of the Psychological Cosmos. 
+
+This engine is a diagnostic mapping matrix designed to track, synthesize, and categorize human behavioral anomalies. Every complex psychological state is not a single point of failure, but a solar system built from fundamental raw materials—elemental emotional forces.
+
+Beneath this interface lies your lexicon of Core Atoms: base reactions like Fear, Anger, and Disgust, combined with structural vectors like Intensity, Duration, and Deficit. 
+
+By pulling these elements into alignment and orbiting them together, you will create a chain reaction. Two basic atoms will combine into a complex behavioral trait—a Planet. As these clinical signatures proliferate, they will exert gravitational pull on one another. When enough specific traits cross paths, they will ignite a Sun (Disorder), ultimately structuring entire stellar clusters (Nebulas and Deep Systems) out of the formless dark.
+
+The map below reflects the current state of your observation. Right now, it is an empty expanse of locked anomalies and un-ignited systems. 
+
+Begin your synthesis. The vacuum is waiting.
+
+"Just like Ikigai teaches us purpose = addition...
+Cosmo Healthist teaches us understanding = combination."
+
+<hr>
+
+[[Enter Workspace|Attach]]

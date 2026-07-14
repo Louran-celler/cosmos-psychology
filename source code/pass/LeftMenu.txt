@@ -1,0 +1,19 @@
+/*
+	The menu is toggled off by default. Clicking on the Arrow (first icon/p) will trigger <<toggleclass>>, and display the menu. Click again or reload the page and it will disappear.
+
+	[title] for each <p> will display a hovertip to tell players what the icon/link represents. 
+*/
+
+<p id="left-toggle" title="Toggle Menu"><<link '<i class="fa-solid fa-caret-up"></i>'>><<toggleclass "#left-menu" "show">><</link>></p>
+<p title="Codex"><<link '<i class="fa-solid fa-book"></i>' "codex">><</link>></p>
+<p title="Credits"><<link '<i class="fa-solid fa-share-nodes"></i>'>>
+	<<popup "credits" "Credits">>
+<</link>></p>
+<p title="Saves"><<link '<i class="fa-solid fa-floppy-disk"></i>'>><<run UI.saves();>><</link>></p>
+<p title="Settings"><<link '<i class="fa-solid fa-gears"></i>'>><<run UI.settings();>><</link>></p>
+<p title="Restart"><<link '<i class="fa-solid fa-rotate-left"></i>'>><<run UI.restart();>><</link>></p>
+/*
+	This first section only has utilities icons (Settings/Saves/Restarts and Credits), with the more Story focused one coded in the RightMenu instead.
+
+	You can add more links if you want, though I do not recommend too many, because it can become a pain with small screens (>300px).
+*/

@@ -1,0 +1,6 @@
+<<link '<i class="fa-solid fa-backward"></i>'>><<run Engine.backward();>><</link>> | <<if State.length === State.size>><i class="fa-solid fa-forward"></i><<else>><<link '<i class="fa-solid fa-forward"></i>'>><<run Engine.forward();>><</link>><</if>>
+/*
+	While this only has navigation buttons here, you could honestly have the whole menu (Settings/Saves/etc...) included in this passage and not have sidebars. If you do that, please remember to remove the [left-menu] and [right-menu] from StoryInterface and the StyleSheet.
+
+	You can also choose to disable Navigation by removing this passage, the [navigation] element in the StoryInterface, and increase the height of [#cover] in the StyleSheet.
+*/

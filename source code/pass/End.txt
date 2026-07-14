@@ -1,0 +1,8 @@
+<h1>END</h1>
+
+<center><<button "Restart?">><<run UI.restart();>><</button>> | <<button "Back">><<run Engine.backward()>><</button>></center>
+/*
+	This is a pretty bare option for an end page here. So you may want to add more.
+
+	also the tags [cover-start] and [cover-end] are necessary to make it look like the back cover of a book.
+*/

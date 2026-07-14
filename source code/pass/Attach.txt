@@ -1,0 +1,227 @@
+/* 1. check combo */
+<<nobr>>
+<<if $hand1 == null or $hand1 == undefined>>
+<<set $hand1 to "Nothing">>
+<</if>>
+<<if $hand2 == null or $hand2 == undefined>>
+<<set $hand2 to "Nothing">>
+<</if>>
+
+<<if $hand1 != "Nothing" and $hand2 != "Nothing">>
+    <<set _words to [$hand1, $hand2]>>
+    <<set _words.sort()>>
+    <<set _key to _words[0] + "|" + _words[1]>>
+    <<set _result to $combinations[_key]>>
+
+    <<if _result !== undefined>>
+        <<if !$known.includes(_result)>>
+            <<set $known.push(_result)>>
+            <<if !settings.nonotif>>
+                <<notify 4s>>New Planet discovered: <<print _result>><</notify>>
+            <</if>>
+        <</if>>
+    <<else>>
+        <<if !settings.nonotif>>
+            <<notify 4s>>The combinations drift away into the vacuum.<</notify>>
+        <</if>>
+    <</if>>
+
+    /* Reset Hands */
+    <<set $hand1 to "Nothing">>
+    <<set $hand2 to "Nothing">>
+<</if>>
+
+/* 2. CLINICAL CHECKLIST ENGINE */
+<<if !$ignitedSuns.includes("Major Depressive Disorder")>>
+    <<if $known.includes("Chronic Low Mood") and $known.includes("Anhedonia")>>
+        <<set $ignitedSuns.push("Major Depressive Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Major Depressive Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Generalized Anxiety Disorder")>>
+    <<if $known.includes("Generalized Anxiety") and $known.includes("Hyper-Arousal")>>
+        <<set $ignitedSuns.push("Generalized Anxiety Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Generalized Anxiety Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Obsessive-Compulsive Disorder")>>
+    <<if $known.includes("Hypervigilance") and $known.includes("Aversion") and $known.includes("Fixation")>>
+        <<set $ignitedSuns.push("Obsessive-Compulsive Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Obsessive-Compulsive Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Antisocial Personality Disorder")>>
+    <<if $known.includes("Callousness") and $known.includes("Impulsivity") and $known.includes("Deceitfulness") and $known.includes("Aggression")>>
+        <<set $ignitedSuns.push("Antisocial Personality Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Antisocial Personality Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Narcissistic Personality Disorder")>>
+    <<if $known.includes("Grandiosity") and $known.includes("Insecurity") and $known.includes("Callousness")>>
+        <<set $ignitedSuns.push("Narcissistic Personality Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Narcissistic Personality Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Borderline Personality Disorder")>>
+    <<if $known.includes("Impulsivity") and $known.includes("Insecurity") and $known.includes("Chronic Low Mood") and $known.includes("Aggression")>>
+        <<set $ignitedSuns.push("Borderline Personality Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Borderline Personality Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+<<if !$ignitedSuns.includes("Paranoid Personality Disorder")>>
+    <<if $known.includes("Paranoia") and $known.includes("Resentment") and $known.includes("Hypervigilance")>>
+        <<set $ignitedSuns.push("Paranoid Personality Disorder")>>
+        <<if !settings.nonotif>><<notify 4s>>Sun Ignited: Paranoid Personality Disorder<</notify>><</if>>
+    <</if>>
+<</if>>
+
+/* 3. GALAXY DRIFT MANAGEMENT */
+<<if !$activeGalaxies.includes("Affective Nebula") and ($ignitedSuns.includes("Major Depressive Disorder") or $ignitedSuns.includes("Generalized Anxiety Disorder") or $ignitedSuns.includes("Obsessive-Compulsive Disorder"))>>
+    <<set $activeGalaxies.push("Affective Nebula")>>
+    <<if !settings.nonotif>><<notify 4s>>Cluster Formed: Affective Nebula<</notify>><</if>>
+<</if>>
+
+<<if !$activeGalaxies.includes("Erratic Cluster") and ($ignitedSuns.includes("Antisocial Personality Disorder") or $ignitedSuns.includes("Narcissistic Personality Disorder") or $ignitedSuns.includes("Borderline Personality Disorder"))>>
+    <<set $activeGalaxies.push("Erratic Cluster")>>
+    <<if !settings.nonotif>><<notify 4s>>Cluster Formed: Erratic Cluster<</notify>><</if>>
+<</if>>
+
+<<if !$activeGalaxies.includes("Eccentric Deep") and $ignitedSuns.includes("Paranoid Personality Disorder")>>
+    <<set $activeGalaxies.push("Eccentric Deep")>>
+    <<if !settings.nonotif>><<notify 4s>>Cluster Formed: Eccentric Deep<</notify>><</if>>
+<</if>>
+
+<<if !$activeGalaxies.includes("Dark Triad System") and ($ignitedSuns.includes("Antisocial Personality Disorder") and $ignitedSuns.includes("Narcissistic Personality Disorder") and $known.includes("Deceitfulness") and $known.includes("Callousness"))>>
+    <<set $activeGalaxies.push("Dark Triad System")>>
+    <<if !settings.nonotif>><<notify 4s>>Cluster Formed: Dark Triad System<</notify>><</if>>
+<</if>>
+
+
+
+<div>
+<center>
+	<<print $hand1>> + <<print $hand2>> </center>
+	<<if $hand1 != "Nothing" or $hand2 != "Nothing">>
+		<center><<button "Clear Orbits">></center>
+			<<set $hand1 to "Nothing">><<set $hand2 to "Nothing">>
+			<<goto "Attach">>
+		<</button>>
+	<</if>>
+</div>
+<div>
+	<<set _atoms to ["Fear", "Joy", "Anger", "Sadness", "Disgust", "Energy", "Duration", "Intensity", "Deficit", "Fixation"]>>
+	<<for _i = 0; _i < _atoms.length; _i++>>
+		<<capture _i>>
+			<<button _atoms[_i]>>
+				<<if $hand1 == "Nothing">>
+					<<set $hand1 to _atoms[_i]>>
+				<<elseif $hand2 == "Nothing">>
+					<<set $hand2 to _atoms[_i]>>
+				<<else>>
+					<<set $hand1 to _atoms[_i]>>
+					<<set $hand2 to "Nothing">>
+				<</if>>
+				<<goto "Attach">>
+			<</button>>
+		<</capture>>
+	<</for>>
+</div>
+<</nobr>><hr>
+<div class="scrollable-area">
+<ul>
+	/* 1. AFFECTIVE NEBULA SECTOR */
+	<li>
+		<strong><<if $activeGalaxies.includes("Affective Nebula")>>Affective Nebula (Internalizing Distress and Dysregulation)<<else>>Unknown Nebula<</if>></strong><ul><li>
+                <strong><<if $ignitedSuns.includes("Major Depressive Disorder")>>Major Depressive Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Chronic Low Mood")>>Chronic Low Mood<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Anhedonia")>>Anhedonia<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+			<li>
+				<strong><<if $ignitedSuns.includes("Generalized Anxiety Disorder")>>Generalized Anxiety Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Generalized Anxiety")>>Generalized Anxiety<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Hyper-Arousal")>>Hyper-Arousal<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+			<li>
+				<strong><<if $ignitedSuns.includes("Obsessive-Compulsive Disorder")>>Obsessive-Compulsive Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Hypervigilance")>>Hypervigilance<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Aversion")>>Unknown Planet<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Fixation")>>Fixation<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+
+	/* 2. ERRATIC CLUSTER SECTOR */
+	<li>
+		<strong><<if $activeGalaxies.includes("Erratic Cluster")>>Erratic Cluster (Cluster B - Volatility and Impulse Control Failures)<<else>>Unknown Cluster<</if>></strong>
+		<ul>
+			<li>
+				<strong><<if $ignitedSuns.includes("Antisocial Personality Disorder")>>Antisocial Personality Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Callousness")>>Callousness<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Impulsivity")>>Impulsivity<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Deceitfulness")>>Deceitfulness<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Aggression")>>Aggression<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+			<li>
+				<strong><<if $ignitedSuns.includes("Narcissistic Personality Disorder")>>Narcissistic Personality Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Grandiosity")>>Grandiosity<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Insecurity")>>Insecurity<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Callousness")>>Callousness (Overlapped)<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+			<li>
+				<strong><<if $ignitedSuns.includes("Borderline Personality Disorder")>>Borderline Personality Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Impulsivity")>>Impulsivity (Overlapped)<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Insecurity")>>Insecurity (Overlapped)<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Chronic Low Mood")>>Chronic Low Mood (Overlapped)<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Aggression")>>Aggression (Overlapped)<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+
+	/* 3. ECCENTRIC DEEP SECTOR */
+	<li>
+		<strong><<if $activeGalaxies.includes("Eccentric Deep")>>Eccentric / Suspicious Deep (Cluster A - Distrust and Cognitive Distortions)<<else>>Unknown Deep<</if>></strong>
+		<ul>
+			<li>
+				<strong><<if $ignitedSuns.includes("Paranoid Personality Disorder")>>Paranoid Personality Disorder<<else>>Unknown Sun<</if>></strong>
+				<ul>
+					<li><<if $known.includes("Paranoia")>>Paranoia<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Resentment")>>Resentment<<else>>Unknown Planet<</if>></li>
+					<li><<if $known.includes("Hypervigilance")>>Hypervigilance (Overlapped)<<else>>Unknown Planet<</if>></li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+
+	/* 4. DARK TRIAD OVERLAP SECTOR */
+	<li>
+		<strong><<if $activeGalaxies.includes("Dark Triad System")>>Dark Triad System (Gravitational Hyper-Overlap)<<else>>Unknown System<</if>></strong>
+		<ul>
+			<li><<if $ignitedSuns.includes("Antisocial Personality Disorder")>>Antisocial (Psychopathy Branch)<<else>>Unknown Sub-System<</if>></li>
+			<li><<if $ignitedSuns.includes("Narcissistic Personality Disorder")>>Narcissism (Ego Branch)<<else>>Unknown Sub-System<</if>></li>
+			<li><<if $activeGalaxies.includes("Dark Triad System")>>Machiavellianism Sub-System<<else>>Unknown Sub-System<</if>></li> 
+		</ul>
+	</li>
+</ul>
+
+Discovered: <<print $known.length - 10>> / Total Planets: 15
+Ignited Suns: $ignitedSuns.length / 7
+Active Galaxies: $activeGalaxies.length / 4
+</div>

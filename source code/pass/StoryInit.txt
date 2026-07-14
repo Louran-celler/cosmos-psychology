@@ -1,0 +1,38 @@
+:: StoryInit
+<<set $hand1 to "Nothing">>
+<<set $hand2 to "Nothing">>
+<<set $achievementText to []>>
+
+/* Starting Inventory: 6 Base Moons + 4 Cosmic Accelerators */
+<<set $known to [
+	"Fear", "Joy", "Anger", "Sadness", "Disgust", "Energy",
+	"Duration", "Intensity", "Deficit", "Fixation"
+]>>
+
+/* Suns and Galaxy Tracking Arrays */
+<<set $ignitedSuns to []>>
+<<set $activeGalaxies to []>>
+
+/* Initialize the Master Combination Matrix */
+<<set $combinations to {}>>
+
+/* --- TIER 2 RECIPES: MOON + MOON / MOON + ACCELERATOR (PLANETS) --- */
+/* Affective & Mood Traits */
+<<set $combinations["Duration|Sadness"] to "Chronic Low Mood">>
+<<set $combinations["Deficit|Joy"] to "Anhedonia">>
+<<set $combinations["Energy|Intensity"] to "Hyper-Arousal">>
+<<set $combinations["Duration|Fear"] to "Generalized Anxiety">>
+
+/* Behavioral & Personality Traits */
+<<set $combinations["Anger|Disgust"] to "Callousness">>
+<<set $combinations["Deficit|Energy"] to "Impulsivity">>
+<<set $combinations["Fear|Fixation"] to "Hypervigilance">>
+<<set $combinations["Disgust|Fixation"] to "Aversion">>
+<<set $combinations["Anger|Intensity"] to "Aggression">>
+
+/* Cognitive & Self Traits */
+<<set $combinations["Intensity|Joy"] to "Grandiosity">>
+<<set $combinations["Deficit|Fear"] to "Insecurity">>
+<<set $combinations["Anger|Fixation"] to "Resentment">>
+<<set $combinations["Deficit|Disgust"] to "Deceitfulness">>
+<<set $combinations["Fear|Intensity"] to "Paranoia">>

@@ -1,0 +1,98 @@
+<<nobr>>
+<strong>Joy:</strong> A feeling of extreme gladness, delight, or exultation of the spirit arising from a sense of well-being or satisfaction. The feeling of joy may take two forms: passive and active. Passive joy involves tranquility and a feeling of contentment with things as they are. Active joy involves a desire to share one’s feelings with others. It is associated with more engagement of the environment than is passive joy. The distinction between passive and active joy may be related to the intensity of the emotion, with active joy representing the more intense form. Both forms of joy are associated with an increase in energy and feelings of confidence and self-esteem.
+<br><em>Source: https://dictionary.apa.org/joy </em><br><br>
+
+<strong>Anger:</strong> An emotion characterized by tension and hostility arising from frustration, real or imagined injury by another, or perceived injustice. It can manifest itself in behaviors designed to remove the object of the anger (e.g., determined action) or behaviors designed merely to express the emotion (e.g., swearing). Anger is distinct from, but a significant activator of, aggression, which is behavior intended to harm someone or something. Despite their mutually influential relationship, anger is neither necessary nor sufficient for aggression to occur.
+<br><em>Source: https://dictionary.apa.org/anger </em><br><br>
+
+<strong>Sadness:</strong> An emotional state of unhappiness, ranging in intensity from mild to extreme and usually aroused by the loss of something that is highly valued (e.g., by the rupture of a relationship). Persistent sadness is one of the two defining symptoms of a major depressive episode, the other being anhedonia.
+<br><em>Source: https://dictionary.apa.org/sadness </em><br><br>
+
+<strong>Disgust:</strong> A strong aversion, for example, to the taste, smell, or touch of something deemed revolting, or toward a person or behavior deemed morally repugnant.
+<br><em>Source: https://dictionary.apa.org/disgust </em><br><br>
+
+<strong>Energy:</strong> A fundamental entity of nature that is transferred between parts of a system in the production of physical change within the system and usually regarded as the capacity for doing work.
+<br><em>Source: https://www.merriam-webster.com/dictionary/energy </em><br><br>
+
+<strong>Duration:</strong> Continuance in time.
+<br><em>Source: https://www.merriam-webster.com/dictionary/duration </em><br><br>
+
+<strong>Intensity:</strong> Existing in an extreme degree.
+<br><em>Source: https://www.merriam-webster.com/dictionary/intense </em><br><br>
+
+<strong>Deficit:</strong> A lack or impairment in an ability or functional capacity.
+<br><em>Source: https://www.merriam-webster.com/dictionary/deficit </em><br><br>
+
+<strong>Fixation:</strong> An obsessive or unhealthy preoccupation or attachment.
+<br><em>Source: https://www.merriam-webster.com/dictionary/fixation </em><br><br>
+
+<<if $known.includes("Chronic Low Mood")>>
+<strong>Chronic Low Mood:</strong> A mild to moderate chronic depression. It involves a sad or dark mood most of the day, on most days, for two years or more. PDD is common and can happen to anyone at any age.
+<br><em>Source: http://my.clevelandclinic.org/health/diseases/9292-persistent-depressive-disorder-pdd </em><br><br>
+<</if>>
+
+<<if $known.includes("Anhedonia")>>
+<strong>Anhedonia:</strong> The inability to enjoy experiences or activities that normally would be pleasurable. It is one of two defining symptoms of a major depressive episode (the other being a persistent depressed mood), but it is also seen in other disorders, including schizophrenia. (First defined in 1897 by Théodule Ribot).
+<br><em>Source: https://dictionary.apa.org/anhedonia </em><br><br>
+<</if>>
+
+<<if $known.includes("Hyper-Arousal")>>
+<strong>Hyper-Arousal:</strong> One of three sets of criteria used to diagnose posttraumatic stress disorder and acute stress disorder. Symptoms of hyperarousal include exaggerated startle response, disturbed sleep, difficulty in concentrating or remembering, and excessive vigilance.
+<br><em>Source: https://dictionary.apa.org/hyperarousal </em><br><br>
+<</if>>
+
+<<if $known.includes("Generalized Anxiety")>>
+<strong>Generalized Anxiety:</strong> GAD usually involves a persistent feeling of anxiety or dread that interferes with how you live your life. It is not the same as occasionally worrying about things or experiencing anxiety due to stressful life events. For people with GAD, these feelings of anxiety can last for months or even years.
+<br><em>Source: https://www.nimh.nih.gov/health/publications/generalized-anxiety-disorder-gad </em><br><br>
+<</if>>
+
+<<if $known.includes("Callousness")>>
+<strong>Callousness:</strong> Behaviour that is unkind, cruel, and without sympathy or feeling for other people.
+<br><em>Source: https://dictionary.cambridge.org/dictionary/english/callousness </em><br><br>
+<</if>>
+
+<<if $known.includes("Impulsivity")>>
+<strong>Impulsivity:</strong> Describing or displaying behavior characterized by little or no forethought, reflection, or consideration of the consequences of an action, particularly one that involves taking risks. Compare reflective.
+<br><em>Source: https://dictionary.apa.org/impulsive </em><br><br>
+<</if>>
+
+<<if $known.includes("Hypervigilance")>>
+<strong>Hypervigilance:</strong> A state of abnormally heightened alertness, particularly to threatening or potentially dangerous stimuli.
+<br><em>Source: https://dictionary.apa.org/hypervigilance </em><br><br>
+<</if>>
+
+<<if $known.includes("Aversion")>>
+<strong>Aversion:</strong> A physiological or emotional response indicating dislike for a stimulus. It is usually accompanied by withdrawal from or avoidance of the objectionable stimulus (an aversion reaction).
+<br><em>Source: https://dictionary.apa.org/aversion </em><br><br>
+<</if>>
+
+<<if $known.includes("Aggression")>>
+<strong>Aggression:</strong> Behavior aimed at harming others physically or psychologically. It can be distinguished from anger in that anger is oriented at overcoming the target but not necessarily through harm or destruction. When such behavior is purposively performed with the primary goal of intentional injury or destruction, it is termed hostile aggression. Other types of aggression are less deliberately damaging and may be instrumentally motivated (proactive) or affectively motivated (reactive). Instrumental aggression involves an action carried out principally to achieve another goal, such as acquiring a desired resource. Affective aggression involves an emotional response that tends to be targeted toward the perceived source of the distress but may be displaced onto other people or objects if the disturbing agent cannot be attacked.
+<br><em>Source: https://dictionary.apa.org/aggression </em><br><br>
+<</if>>
+
+<<if $known.includes("Grandiosity")>>
+<strong>Grandiosity:</strong> An exaggerated sense of one’s greatness, importance, or ability. In extreme form, it may be regarded as a delusion of grandeur.
+<br><em>Source: https://dictionary.apa.org/grandiosity </em><br><br>
+<</if>>
+
+<<if $known.includes("Insecurity")>>
+<strong>Insecurity:</strong> A feeling of inadequacy, lack of self-confidence, and inability to cope, accompanied by general uncertainty and anxiety about one’s goals, abilities, or relationships with others.
+<br><em>Source: https://dictionary.apa.org/insecurity </em><br><br>
+<</if>>
+
+<<if $known.includes("Resentment")>>
+<strong>Resentment:</strong> A feeling of bitterness, animosity, or hostility elicited by something or someone perceived as insulting or injurious.
+<br><em>Source: https://dictionary.apa.org/resentment </em><br><br>
+<</if>>
+
+<<if $known.includes("Deceitfulness")>>
+<strong>Deceitfulness:</strong> The action of keeping the truth hidden, especially to get an advantage.
+<br><em>Source: http://dictionary.cambridge.org/dictionary/english/deceitfulness </em><br><br>
+<</if>>
+
+<<if $known.includes("Paranoia")>>
+<strong>Paranoia:</strong> A diagnosis for a relatively rare disorder, distinct from paranoid schizophrenia, in which the person reasons rightly from a wrong premise and develops a persistent, well-systematized, and logically constructed set of persecutory delusions, such as being conspired against, poisoned, or maligned. It is equivalent to persecutory-type delusional disorder.
+<br><em>Source: https://dictionary.apa.org/paranoia </em><br><br>
+<</if>>
+<</nobr>>
