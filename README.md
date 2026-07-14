@@ -7,3 +7,5 @@ Beneficiaries: Psychology students learning diagnostic patterns, educational ins
 
 Note the template for this is made by someone amazing. Thier link is here: https://itch.io/queue/c/2701685/twine-templates?game_id=1627866&password=
 
+Lastly this project is best viewed by Twine as it is a specially made to use and handle it. The link to the website is: twinery.org
+
